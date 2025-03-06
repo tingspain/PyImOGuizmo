@@ -1,0 +1,11 @@
+[project]
+name = "pyimoguizmo"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12.5"
+dependencies = [
+    "imgui-bundle>=1.6.2",
+    "moderngl>=5.12.0",
+    "pyglm>=2.8.0",
+]
