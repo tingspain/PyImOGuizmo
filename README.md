@@ -6,7 +6,7 @@
 
 
 <video controls>
-<source src="media/PyImOGuizmo_Demo.mp4" type="video/mp4">
+<source src="/media/PyImOGuizmo_Demo.mp4" type="video/mp4">
 </video>
 
 PyImoGuizmo is a Python library mostly ported from the C++ [ImOGuizmo library](https://github.com/fknfilewalker/imoguizmo). It provides an interactive orientation gizmo for the 3D Viewport  within ImGui-based applications, such as those using [imgui_bundle](https://github.com/pthom/imgui_bundle).
