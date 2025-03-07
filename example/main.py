@@ -211,10 +211,6 @@ def display_overlay_extra_info(is_hovered, is_focused, cur_window_pos, camera_po
     else: 
         imgui.text_colored((1.0, 1.105, 0.105, 1.00), "(Nan, Nan)" )
         
-    imgui.text("Camera Pos.:")
-    imgui.same_line()
-    imgui.text(f'{camera_position.x:.2f} {camera_position.y:.2f} {camera_position.z:.2f}')
-    
     imgui.end_group()
 
     
@@ -242,7 +238,7 @@ def main() -> None:
         # glfw.window_hint(glfw.OPENGL_FORWARD_COMPAT, GL.GL_TRUE)
 
     # Create window with graphics context
-    window = glfw.create_window(1600, 1000, "PyImOGuizmo Example v0.0.1", None, None)
+    window = glfw.create_window(1200, 800, "PyImOGuizmo Example v0.0.1", None, None)
     if window is None:
         glfw.terminate()
         raise RuntimeError("Failed to create GLFW window")
@@ -470,7 +466,7 @@ def main() -> None:
                                   rect_min.y, 
                                   80)
 
-            PyImOGuizmo.begin_frame()
+            # PyImOGuizmo.begin_frame()
             
             
             if not  app_state.imoguizmo_camera_version:
