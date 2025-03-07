@@ -32,7 +32,7 @@ Currently, you can install **PyImoGuizmo** by:
 * Downloading the `PyImoGuizmo.py` file directly
 * Cloning this repository
 ```sh
-git clone https://github.com/your-repo/PyImOGuizmo.git
+git clone https://github.com/tingspain/PyImOGuizmo.git
 cd PyImOGuizmo
 ```
 
@@ -103,7 +103,7 @@ Follow these steps to run the example application:
 
 1. Clone the PyImOGuizmo repository
 ```sh
-git clone https://github.com/your-repo/PyImOGuizmo.git
+git clone https://github.com/tingspain/PyImOGuizmo.git
 cd PyImOGuizmo
 ```
 
