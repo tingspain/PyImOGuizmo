@@ -4,10 +4,7 @@
 
 > ⚠️ Warning: This Library is still a Work In Progress 🚧 👷 ‼️
 
-
-<video controls>
-<source src="/media/PyImOGuizmo_Demo.mp4" type="video/mp4">
-</video>
+![](/media/PyImOGuizmo_Demo.gif)
 
 ### Overview
 
