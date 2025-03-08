@@ -1,19 +1,23 @@
 """
-File Name: Mesh.py
+File Name: mesh.py
 Author: JuanMa Romero Martin <juanma@ihm.solutions>
 Date Created:  2025-02-15
-Last Modified: 2025-02-15
-Description: TBD
+Last Modified: 2025-03-01
+Description: This module contains the implementation of various Mesh classes, 
+             including base Mesh, MeshCube, MeshGrid, and MeshAxes, used for 
+             rendering 3D objects.
+
+TODO: 
+    - 
 """
 
-import glm
 import moderngl 
+import glm
 import uuid
 
 import geometry as Geometry
 from PyImOGuizmo import Camera
 from shader_program import ShaderProgram
-
 
 
 
@@ -149,9 +153,7 @@ class MeshCube(Mesh):
         
         self.name = name
         
-        
-        
-        
+         
         
 class MeshGrid(Mesh):
     

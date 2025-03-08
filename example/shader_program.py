@@ -1,3 +1,15 @@
+"""
+File Name: shader_program.py
+Author: JuanMa Romero Martin <juanma@ihm.solutions>
+Date Created:  2025-02-15
+Last Modified: 2025-03-08
+Description: This module defines a ShaderProgram class for handling shader programs 
+             in a graphical context.
+             
+TODO: 
+    - 
+"""
+
 import os
 from enum import StrEnum
 

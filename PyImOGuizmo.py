@@ -1,3 +1,21 @@
+"""
+File Name: PyImOGuizmo.py
+Author: JuanMa Romero Martin <juanma@ihm.solutions>
+Date Created:  2025-02-15
+Last Modified: 2025-03-08
+Description: This module provides functionalities for an interactive orientation 
+             gizmo for ImGui in Python. It includes classes and functions to handle 
+             camera movements, rotations, and view matrix generations, as well as 
+             drawing and interacting with gizmo elements. 
+             
+TODO: 
+    - Fix draw_gizmo()
+    - Clean Up the code
+    - Use quaternions for the rotations
+    - Add option to setup the Y or Z axis as up vector. 
+    - Add more customizations 
+"""
+
 from imgui_bundle import imgui, IM_COL32
 import glm
 import math
@@ -163,8 +181,6 @@ class GizmoConfig:
 
 config = GizmoConfig()
 
-
-
               
 def extract_vectors_from_view_matrix(view_matrix):
     """
@@ -291,7 +307,6 @@ def set_draw_list(drawlist=None):
     config.mDrawList = drawlist if drawlist else imgui.get_window_draw_list()
 
 
-
 def begin_frame(background=False):
     
     flags =   imgui.WindowFlags_.no_decoration \
@@ -314,6 +329,7 @@ is_dragging_started:bool = False
 last_mouse_pos:imgui.ImVec2Like = None
 
 
+# Work In Progress
 def draw_gizmo(view_matrix:glm.mat4, pivot_distance=0.0):
     
     global is_dragging_started
@@ -542,7 +558,6 @@ def draw_gizmo(view_matrix:glm.mat4, pivot_distance=0.0):
     
     # Return the view matrix, and flags
     return is_view_changed, new_view_matrix, is_hovered, is_dragging
-
 
 
 

@@ -1,12 +1,16 @@
 """
-File Name: Geometry.py
-Author: Me <some@user.com>
+File Name: geometry.py
+Author: JuanMa Romero Martin <juanma@ihm.solutions>
 Date Created:  2025-02-15
-Last Modified: 2025-02-15
-Description: This module provides an abstract base class `Geometry` for handling geometric shapes 
-             in a rendering context. It includes functionality to initialize vertex buffer objects (VBOs),
-             manage vertex attributes, and create vertex arrays. Subclasses are required to implement 
-             methods to specify attribute formats, attribute lists, and vertex array creation.
+Last Modified: 2025-03-01
+Description: This module provides an abstract base class `Geometry` for handling 
+             geometric shapes in a rendering context. It includes functionality 
+             to initialize vertex buffer objects (VBOs), manage vertex attributes, 
+             and create vertex arrays. Subclasses are required to implement methods 
+             to specify attribute formats, attribute lists, and vertex array creation.
+             
+TODO: 
+    - 
 """
 
 import numpy as np
