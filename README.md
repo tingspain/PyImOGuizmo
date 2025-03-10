@@ -6,7 +6,7 @@
 
 ![](/media/PyImOGuizmo_Demo.gif)
 
-### Overview
+### 1. Overview
 
 PyImoGuizmo is a Python library mostly ported from the C++ [ImOGuizmo](https://github.com/fknfilewalker/imoguizmo) library. It provides an interactive orientation gizmo for the 3D Viewport  within ImGui-based applications, such as those using [imgui_bundle](https://github.com/pthom/imgui_bundle).
 
@@ -14,7 +14,7 @@ PyImoGuizmo is a Python library mostly ported from the C++ [ImOGuizmo](https://g
 Designed for **simplicity** and **ease of integration** with your ImGui-based applications, PyImoGuizmo leverages PyGLM for efficient matrix operations and transformations.
 
 
-### ✨ Features
+#### 1.1 Features
 
 - Interactive orientation gizmo for 3D transformations
 - Configurable colors, axis length, and other properties [🚧 WiP]
@@ -22,7 +22,7 @@ Designed for **simplicity** and **ease of integration** with your ImGui-based ap
 - Powered by PyGLM for high-performance matrix calculations
 - Supports both left-handed and right-handed coordinate systems [🚧 WiP]
 
-### 📥 Installation
+### 2. Installation
 
 Currently, you can install **PyImoGuizmo** by:
 
@@ -36,9 +36,17 @@ cd PyImOGuizmo
 A PyPI release is planned once the library reaches a more stable and mature state.
 
 
-### 🚀 Usage
+### 3. Usage
 
 Here’s a basic example of how to integrate **PyImoGuizmo** into your project:
+
+There are currently two ways to use PyImoGuizmo:
+
+1. `draw_gizmo_camera()` → Requires a PyImOGuizmo Camera (or any object with the necessary attributes).
+2. `draw_gizmo()` → Requires the camera's view matrix to be passed manually.
+
+
+#### 3.1 Using draw_gizmo_camera()
 
 ```Python
 from imgui_bundle import imgui
@@ -64,27 +72,59 @@ PyImOGuizmo.set_rect( rect_max.x - 120,
                       rect_min.y, 
                       80)
 
-# Draw the Gizmo
+# Draw View Manipulator Gizmo
 is_view_changed, is_gizmo_hovered, is_gizmo_dragged = PyImOGuizmo.draw_gizmo_camera(viewport_camera)
 
 
 ```
 
-### 📌 Notes
-
-There are currently two ways to use PyImoGuizmo:
-
-1. `draw_gizmo_camera()` → Requires a PyImOGuizmo Camera (or any object with the necessary attributes).
-2. `draw_gizmo()` → Requires the camera's view matrix to be passed manually. (This method is still under development and may not work 100% correctly.)
+#### 3.2 Using draw_gizmo()
+```Python
+from imgui_bundle import imgui
+import PyImOGuizmo 
 
 
-### 🛠 Example
+# Create a Camera
+viewport_camera = PyImOGuizmo.Camera( viewport_width/viewport_height, 
+                                        position = (0, 1, 15), 
+                                        pitch    = 0, 
+                                        yaw      = -90) 
+
+# Set Rotation Sensitivity per axis of rotation
+PyImOGuizmo.config.yaw_rotation_speed   = 0.25 
+PyImOGuizmo.config.pitch_rotation_speed = 0.25 
+
+
+# Pass the draw list of the current window to the PyImOGuizmo
+PyImOGuizmo.set_draw_list()
+
+# Set the location of the Gizmo
+PyImOGuizmo.set_rect( rect_max.x - 120, 
+                      rect_min.y, 
+                      80)
+
+# Draw View Manipulator Gizmo
+is_view_changed, new_view_matrix, is_gizmo_hovered, is_gizmo_dragged = PyImOGuizmo.draw_gizmo(viewport_camera.get_view_matrix(), viewport_camera.get_distance())
+
+if(is_view_changed):
+    
+    yaw, pitch, roll  = PyImOGuizmo.compute_euler_angles_from_view_matrix(new_view_matrix)
+    
+    viewport_camera.yaw   = glm.degrees(yaw) 
+    viewport_camera.pitch = glm.degrees(pitch)
+        
+    viewport_camera.update_camera_vectors()   
+
+```
+
+
+### 4. Example
 
 The provided example app demonstrates how to use PyImoGuizmo to control the camera of a 3D viewport. Additionally, it showcases how to integrate ModernGL with imgui_bundle for real-time rendering and GUI interaction.
 
 ![Example App](media/PyImOGuizmo_Example_App.png)
 
-#### 📦 Dependencies
+#### 4.1 Dependencies
 
 To run the example, the following dependencies are required:
 
@@ -94,7 +134,7 @@ To run the example, the following dependencies are required:
 
 This project is managed using [UV](https://github.com/astral-sh/uv), a modern Python package manager.
 
-#### 🚀 Running the Example
+#### 4.2 Running the Example
 
 Follow these steps to run the example application:
 
@@ -121,22 +161,22 @@ uv run main.py
 
 This will launch the example app, allowing you to interact with PyImoGuizmo in a 3D viewport.
 
-### 🛣️ Roadmap
+### 5. Roadmap
 
 PyImoGuizmo is still under active development. Below are key milestones planned for future releases:
 
-- 🚀 Planned Features & Improvements
-- ✅ Initial implementation – Interactive orientation gizmo with basic functionality (Completed)
-- 🔄 Improve draw_gizmo() method – Ensure it works 100% correctly
-- 🎨 Customizable appearance – Add more flexibility for colors, size, and styles
-- 🔧 API improvements – Refactor code for better usability and extensibility
-- 📦 PyPI release – Package and publish the library for easier installation
-- 📖 Documentation & Examples – Provide clear usage guides and sample projects
-- 🏗️ Additional features – TBD based on community feedback
+- [ ] Planned Features & Improvements
+- [x] Initial implementation – Interactive orientation gizmo with basic functionality
+- [x] Improve draw_gizmo() method – Ensure it works 100% correctly 
+- [ ] Customizable appearance – Add more flexibility for colors, size, and styles [🚧 WiP]
+- [ ] API improvements – Refactor code for better usability and extensibility
+- [ ] PyPI release – Package and publish the library for easier installation
+- [ ] Documentation & Examples – Provide clear usage guides and sample projects [🚧 WiP]
+- [ ] Additional features – TBD based on community feedback
 
 If you have any suggestions or feature requests, feel free to open an issue or contribute!
 
-### 📜 License
+### 6. License
 
 PyImoGuizmo is licensed under the MIT License.
 
@@ -164,7 +204,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-### Acknowledgment
+### 7. Acknowledgment
 
 This project is mostly ported from [**ImOGuizmo**](https://github.com/fknfilewalker/imoguizmo/tree/main), which is also licensed under the MIT License.
 
