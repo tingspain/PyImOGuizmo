@@ -124,7 +124,9 @@ class Camera:
 
     
     def get_view_matrix(self):
-        return glm.lookAt(self.position, self.position + self.forward, self._up)
+        # return glm.lookAt(self.position, self.position + self.forward, self._up)
+        return glm.lookAt(self.forward * self.get_distance(), self.target, self.up)
+        
         
 
     def get_projection_matrix(self):
@@ -724,7 +726,7 @@ def draw_gizmo_camera(camera:Camera, interactive:bool=True):
         
         PITCH_MAX = 89.9
         camera.yaw   += delta_yaw
-        camera.pitch -= delta_pitch
+        camera.pitch += delta_pitch
         camera.pitch  = glm.clamp(camera.pitch, -PITCH_MAX, PITCH_MAX)
     
         yaw   = glm.radians(camera.yaw)
@@ -749,7 +751,7 @@ def draw_gizmo_camera(camera:Camera, interactive:bool=True):
         
         if selection == 0:   # X            
             camera.pitch = 0
-            camera.yaw   = 180
+            camera.yaw   = 0
         elif selection == 1: # Y            
             camera.pitch = 89.9
             camera.yaw   = 0           
@@ -758,7 +760,7 @@ def draw_gizmo_camera(camera:Camera, interactive:bool=True):
             camera.yaw   = 90
         elif selection == 3: # -X            
             camera.pitch = 0
-            camera.yaw   = 0
+            camera.yaw   = 180
         elif selection == 4: # -Y            
             camera.pitch = -89.9
             camera.yaw   = 0
