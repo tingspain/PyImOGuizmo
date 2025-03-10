@@ -2,14 +2,14 @@
 File Name: PyImOGuizmo.py
 Author: JuanMa Romero Martin <juanma@ihm.solutions>
 Date Created:  2025-02-15
-Last Modified: 2025-03-08
+Last Modified: 2025-03-10
 Description: This module provides functionalities for an interactive orientation 
              gizmo for ImGui in Python. It includes classes and functions to handle 
              camera movements, rotations, and view matrix generations, as well as 
              drawing and interacting with gizmo elements. 
              
 TODO: 
-    - Fix draw_gizmo()
+    - Fix draw_gizmo() [DONE]
     - Clean Up the code
     - Use quaternions for the rotations
     - Add option to setup the Y or Z axis as up vector. 
@@ -331,11 +331,11 @@ is_dragging_started:bool = False
 last_mouse_pos:imgui.ImVec2Like = None
 
 
-# Work In Progress
 def draw_gizmo(view_matrix:glm.mat4, pivot_distance=0.0):
     
     global is_dragging_started
-    
+    global last_mouse_pos
+        
     size   = config.mSize
     h_size = size * 0.75
     center = glm.vec2(config.mX + h_size, config.mY + h_size)
@@ -347,12 +347,7 @@ def draw_gizmo(view_matrix:glm.mat4, pivot_distance=0.0):
     delta_yaw   = 0
     delta_pitch = 0
     
-    # view_projection = glm.transpose(view_matrix * glm.ortho(-1, 1, -1, 1, -1, 1) )
-    # view_projection[1] *= -1
     view_projection = (view_matrix * glm.ortho(-1, 1, -1, 1, -1, 1) )
-    # view_projection = (view_matrix * glm.perspective(10, 1, 0.2, 100) )
-    view_projection[1] *= -1
-    
     
     # Correction for non-square aspect ratio
     # aspect_ratio = projection_matrix[1, 1] / projection_matrix[0,0]
@@ -361,15 +356,6 @@ def draw_gizmo(view_matrix:glm.mat4, pivot_distance=0.0):
 
     # Axis
     axis_length = size * config.axis_length_scale
-    # x_axis = multiply( glm.transpose(view_projection), glm.vec4(axis_length, 0, 0, 0))
-    # y_axis = multiply( glm.transpose(view_projection), glm.vec4(0, axis_length, 0, 0))
-    # z_axis = multiply( glm.transpose(view_projection), glm.vec4(0, 0, axis_length, 0))
-    # z_axis *= -1
-    
-    # x_axis = multiply( (view_projection), glm.vec4(axis_length, 0, 0, 0))
-    # y_axis = multiply( (view_projection), glm.vec4(0, axis_length, 0, 0))
-    # z_axis = multiply( (view_projection), glm.vec4(0, 0, axis_length, 0))
-    
     x_axis = view_projection * glm.vec4(axis_length, 0, 0, 0)
     y_axis = view_projection * glm.vec4(0, axis_length, 0, 0)
     z_axis = view_projection * glm.vec4(0, 0, axis_length, 0)
@@ -397,12 +383,12 @@ def draw_gizmo(view_matrix:glm.mat4, pivot_distance=0.0):
     if is_hovered and imgui.is_mouse_down(imgui.MouseButton_.left) and not is_dragging_started:
         is_dragging_started = True
         is_dragging         = False
-
+        last_mouse_pos = imgui.get_mouse_pos()
 
     if imgui.is_mouse_released(imgui.MouseButton_.left):
         is_dragging_started  = False
         is_dragging          = False
-
+        last_mouse_pos       = None
     
     if imgui.is_window_focused() and imgui.is_mouse_dragging(imgui.MouseButton_.left) and is_dragging_started:
         is_dragging = True
@@ -424,7 +410,6 @@ def draw_gizmo(view_matrix:glm.mat4, pivot_distance=0.0):
     # Sort axis based on distance
 	# 0 : -x axis, 1 : -y axis, 2 : -z axis, 3 : +x axis, 4 : +y axis, 5 : +z axis
     pairs = [(0, -x_axis.z), (1, -y_axis.z), (2, -z_axis.z), (3, x_axis.z), (4, y_axis.z), (5, z_axis.z)]
-    # pairs = [(0, x_axis.w), (1, y_axis.w), (2, z_axis.w), (3, -x_axis.w), (4, -y_axis.w), (5, -z_axis.w)]
     
     pairs.sort(key=lambda x: x[1], reverse=True)
 
@@ -432,17 +417,17 @@ def draw_gizmo(view_matrix:glm.mat4, pivot_distance=0.0):
     if not is_dragging:
         for pair in reversed(pairs):
             if selection == -1 and interactive:
-                if pair[0]   == 0 and check_inside_circle(center + glm.vec2(x_axis.x, x_axis.y), positive_radius, mouse_pos):
+                if pair[0]   == 0 and check_inside_circle(center + glm.vec2(x_axis.x, -x_axis.y), positive_radius, mouse_pos):
                     selection = 0
-                elif pair[0] == 1 and check_inside_circle(center + glm.vec2(y_axis.x, y_axis.y), positive_radius, mouse_pos):
+                elif pair[0] == 1 and check_inside_circle(center + glm.vec2(y_axis.x, -y_axis.y), positive_radius, mouse_pos):
                     selection = 1
-                elif pair[0] == 2 and check_inside_circle(center + glm.vec2(z_axis.x, z_axis.y), positive_radius, mouse_pos):
+                elif pair[0] == 2 and check_inside_circle(center + glm.vec2(z_axis.x, -z_axis.y), positive_radius, mouse_pos):
                     selection = 2
-                elif pair[0] == 3 and check_inside_circle(center - glm.vec2(x_axis.x, x_axis.y), negative_radius, mouse_pos):
+                elif pair[0] == 3 and check_inside_circle(center + glm.vec2(-x_axis.x, x_axis.y), negative_radius, mouse_pos):
                     selection = 3
-                elif pair[0] == 4 and check_inside_circle(center - glm.vec2(y_axis.x, y_axis.y), negative_radius, mouse_pos):
+                elif pair[0] == 4 and check_inside_circle(center + glm.vec2(-y_axis.x, y_axis.y), negative_radius, mouse_pos):
                     selection = 4
-                elif pair[0] == 5 and check_inside_circle(center - glm.vec2(z_axis.x, z_axis.y), negative_radius, mouse_pos):
+                elif pair[0] == 5 and check_inside_circle(center + glm.vec2(-z_axis.x, z_axis.y), negative_radius, mouse_pos):
                     selection = 5
 
 
@@ -451,7 +436,7 @@ def draw_gizmo(view_matrix:glm.mat4, pivot_distance=0.0):
     for pair in pairs:
         if pair[0] == 0:
             draw_positive_line(center, 
-                               glm.vec2(x_axis.x, x_axis.y), 
+                               glm.vec2(x_axis.x, -x_axis.y), 
                                config.x_circle_front_color if x_positive_closer else config.x_circle_back_color, 
                                positive_radius, 
                                line_thickness, 
@@ -459,7 +444,7 @@ def draw_gizmo(view_matrix:glm.mat4, pivot_distance=0.0):
                                selection == 0)
         elif pair[0] == 1:
             draw_positive_line(center, 
-                                glm.vec2(y_axis.x, y_axis.y), 
+                                glm.vec2(y_axis.x, -y_axis.y), 
                                 config.y_circle_front_color if y_positive_closer else config.y_circle_back_color, 
                                 positive_radius, 
                                 line_thickness, 
@@ -467,7 +452,7 @@ def draw_gizmo(view_matrix:glm.mat4, pivot_distance=0.0):
                                 selection == 1)
         elif pair[0] == 2:
             draw_positive_line(center, 
-                                glm.vec2(z_axis.x, z_axis.y), 
+                                glm.vec2(z_axis.x, -z_axis.y), 
                                 config.z_circle_front_color if z_positive_closer else config.z_circle_back_color, 
                                 positive_radius, 
                                 line_thickness,
@@ -475,21 +460,21 @@ def draw_gizmo(view_matrix:glm.mat4, pivot_distance=0.0):
                                 selection == 2)
         elif pair[0] == 3:
             draw_negative_line(center, 
-                                glm.vec2(x_axis.x, x_axis.y), 
+                                glm.vec2(x_axis.x, -x_axis.y), 
                                 config.x_circle_front_color if not x_positive_closer else config.x_circle_back_color,                                
                                 negative_radius, 
                                 "-X",
                                 selection == 3)
         elif pair[0] == 4:
             draw_negative_line(center, 
-                                glm.vec2(y_axis.x, y_axis.y), 
+                                glm.vec2(y_axis.x, -y_axis.y), 
                                 config.y_circle_front_color if not y_positive_closer else config.y_circle_back_color, 
                                 negative_radius,
                                 "-Y",
                                 selection == 4)
         elif pair[0] == 5:
             draw_negative_line(center, 
-                                glm.vec2(z_axis.x, z_axis.y), 
+                                glm.vec2(z_axis.x, -z_axis.y), 
                                 config.z_circle_front_color if not z_positive_closer else config.z_circle_back_color, 
                                 negative_radius, 
                                 "-Z",
@@ -500,36 +485,41 @@ def draw_gizmo(view_matrix:glm.mat4, pivot_distance=0.0):
     new_view_matrix = view_matrix
     
     # Process Rotation
-    if selection==-1 and is_dragging:
+    if selection==-1 and is_dragging and last_mouse_pos:
         
         length      = pivot_distance if pivot_distance > 0 else 1
         referenceUP = glm.vec3(0, 1, 0)
         cam_target  = glm.vec3(0)
         
-        delta_mouse = imgui.get_mouse_drag_delta(imgui.MouseButton_.left, 1)
+        # delta_mouse = imgui.get_mouse_drag_delta(imgui.MouseButton_.left, 1)
+        
+        mouse_pos = imgui.get_mouse_pos()
+        delta = mouse_pos - last_mouse_pos
+        last_mouse_pos = mouse_pos
+
+        delta_yaw   = delta.x * config.yaw_rotation_speed
+        delta_pitch = delta.y * config.pitch_rotation_speed
         
         right, referenceUP, dir = extract_vectors_from_view_matrix( view_matrix )
         yaw, pitch, roll        = compute_euler_angles_from_view_matrix(view_matrix)
    
         PITCH_MAX   = glm.radians(89.8)
-        delta_yaw   = glm.radians(delta_mouse.x * config.yaw_rotation_speed)
-        delta_pitch = glm.radians(delta_mouse.y * config.pitch_rotation_speed)
-
         yaw   += delta_yaw
-        pitch += delta_pitch
+        pitch -= delta_pitch
         pitch  = glm.clamp(pitch, -PITCH_MAX, PITCH_MAX)
             
         direction = glm.vec3(
-            glm.cos(yaw) * glm.cos(pitch),
-            glm.sin(pitch),
-            glm.sin(yaw) * glm.cos(pitch)
+            glm.cos(yaw) * glm.cos(pitch) * length,
+            glm.sin(pitch) * length,
+            glm.sin(yaw) * glm.cos(pitch) * length
         )
         forward  = glm.normalize(direction)
         right    = glm.normalize(glm.cross(forward, referenceUP))
         up       = glm.normalize(glm.cross(right, forward))
         position = cam_target - forward * length
         
-        new_view_matrix = glm.lookAt(position, position + forward, up )
+        new_view_matrix = glm.lookAt(direction, cam_target, up )
+
         
         is_view_changed = True
         
