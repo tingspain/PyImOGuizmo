@@ -174,6 +174,19 @@ PyImoGuizmo is still under active development. Below are key milestones planned 
 - [ ] Documentation & Examples – Provide clear usage guides and sample projects [🚧 WiP]
 - [ ] Additional features – TBD based on community feedback
 
+
+
+| Status       | Description                                                          | Progress     |
+|--------------|----------------------------------------------------------------------|--------------|
+| [ ]          | Planned Features & Improvements | 20% |
+| [X]          | Initial implementation – Interactive orientation gizmo with basic functionality | 100%    |
+| [X]          | Improve draw_gizmo() method – Ensure it works 100% correctly         | 100%    |
+| [ ]          | Customizable appearance – Add more flexibility for colors, size, and styles | 0% |
+| [ ]          | API improvements – Refactor code for better usability and extensibility | 10%      |
+| [ ]          | PyPI release – Package and publish the library for easier installation | 0%      |
+| [ ]          | Documentation & Examples – Provide clear usage guides and sample projects | 30% |
+| [ ]          | Additional features – TBD based on community feedback                |  0%      |
+
 If you have any suggestions or feature requests, feel free to open an issue or contribute!
 
 ### 6. License
