@@ -165,27 +165,17 @@ This will launch the example app, allowing you to interact with PyImoGuizmo in a
 
 PyImoGuizmo is still under active development. Below are key milestones planned for future releases:
 
-- [ ] Planned Features & Improvements
-- [x] Initial implementation – Interactive orientation gizmo with basic functionality
-- [x] Improve draw_gizmo() method – Ensure it works 100% correctly 
-- [ ] Customizable appearance – Add more flexibility for colors, size, and styles [🚧 WiP]
-- [ ] API improvements – Refactor code for better usability and extensibility
-- [ ] PyPI release – Package and publish the library for easier installation
-- [ ] Documentation & Examples – Provide clear usage guides and sample projects [🚧 WiP]
-- [ ] Additional features – TBD based on community feedback
-
-
 
 | Status       | Description                                                          | Progress     |
 |--------------|----------------------------------------------------------------------|--------------|
-| 🚧          | Planned Features & Improvements | 20% |
+| 🚧          | Planned Features & Improvements | --- |
 | ✅          | Initial implementation – Interactive orientation gizmo with basic functionality | 100%    |
 | ✅          | Improve draw_gizmo() method – Ensure it works 100% correctly         | 100%    |
-| [ ]         | Customizable appearance – Add more flexibility for colors, size, and styles | 0% |
+| ⬜️          | Customizable appearance – Add more flexibility for colors, size, and styles | 0% |
 | 🚧          | API improvements – Refactor code for better usability and extensibility | 10%      |
-| [ ]         | PyPI release – Package and publish the library for easier installation | 0%      |
+| ⬜️          | PyPI release – Package and publish the library for easier installation | 0%      |
 | 🚧          | Documentation & Examples – Provide clear usage guides and sample projects | 30% |
-| [ ]         | Additional features – TBD based on community feedback                |  0%      |
+| ⬜️          | Additional features – TBD based on community feedback                |  ---      |
 
 If you have any suggestions or feature requests, feel free to open an issue or contribute!
 
