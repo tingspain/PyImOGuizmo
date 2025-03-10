@@ -731,7 +731,7 @@ def draw_gizmo_camera(camera:Camera, interactive:bool=True):
         camera.right    = glm.normalize(glm.cross(camera.forward, camera.up))
         camera.up       = glm.normalize(glm.cross(camera.right, camera.forward))
         camera.position = camera.target - camera.forward * camera.get_distance()
-
+        camera.update_camera_vectors()
         is_view_changed = True
         
         
@@ -770,6 +770,7 @@ def draw_gizmo_camera(camera:Camera, interactive:bool=True):
         camera.right    = glm.normalize(glm.cross(camera.forward, camera.up))
         camera.up       = glm.normalize(glm.cross(camera.right, camera.forward))
         camera.position = camera.target - camera.forward * camera.get_distance()
+        camera.update_camera_vectors()
         
         is_dragging     = False
         is_view_changed = True

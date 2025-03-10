@@ -506,7 +506,7 @@ def main() -> None:
                 PyImOGuizmo.config.yaw_rotation_speed   = 0.005
                 PyImOGuizmo.config.pitch_rotation_speed = 0.003
                 
-                is_view_changed,  new_view_matrix, is_gizmo_hovering,  is_gizmo_draggig = PyImOGuizmo.draw_gizmo(viewport_camera.get_view_matrix(), 10)
+                is_view_changed,  new_view_matrix, is_gizmo_hovered, is_gizmo_dragged = PyImOGuizmo.draw_gizmo(viewport_camera.get_view_matrix(), 10)
                 
                 if(is_view_changed):
                     
@@ -518,10 +518,10 @@ def main() -> None:
                     viewport_camera.update_camera_vectors()    
                 
             else: 
-                is_view_changed, is_gizmo_hovering, is_gizmo_draggig = PyImOGuizmo.draw_gizmo_camera(viewport_camera)
+                is_view_changed, is_gizmo_hovered, is_gizmo_dragged = PyImOGuizmo.draw_gizmo_camera(viewport_camera)
                 
-                if(is_view_changed):    
-                    viewport_camera.update_camera_vectors()  
+                # if(is_view_changed):    
+                #     viewport_camera.update_camera_vectors()  
                 
             imgui.end()
 
@@ -583,11 +583,11 @@ def main() -> None:
             imgui.separator_text("Flags")
             imgui.text("Hovered: ")
             imgui.same_line()
-            imgui.text_colored((1,1,0,1) if is_gizmo_hovering else (0.5,.5,.5,1), str(is_gizmo_hovering) )
+            imgui.text_colored((1,1,0,1) if is_gizmo_hovered else (0.5,.5,.5,1), str(is_gizmo_hovered) )
             
             imgui.text("Dragged: ")
             imgui.same_line()
-            imgui.text_colored((1,1,0,1) if is_gizmo_draggig else (0.5,.5,.5,1), str(is_gizmo_draggig) )
+            imgui.text_colored((1,1,0,1) if is_gizmo_dragged else (0.5,.5,.5,1), str(is_gizmo_dragged) )
             
             imgui.text("ViewMatrix Changed: ")
             imgui.same_line()
