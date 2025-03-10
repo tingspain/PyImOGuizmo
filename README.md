@@ -166,6 +166,6 @@ SOFTWARE.
 
 ### Acknowledgment
 
-This project is partially ported from [**ImOGuizmo**](https://github.com/fknfilewalker/imoguizmo/tree/main), which is also licensed under the MIT License.
+This project is mostly ported from [**ImOGuizmo**](https://github.com/fknfilewalker/imoguizmo/tree/main), which is also licensed under the MIT License.
 
 For full license details, see the [LICENSE](https://github.com/fknfilewalker/imoguizmo/blob/main/LICENSE) file in this repository.
