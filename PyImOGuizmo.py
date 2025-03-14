@@ -376,7 +376,7 @@ def draw_gizmo(view_matrix:glm.mat4, pivot_distance=0.0):
         is_hovered = False
     
     # 
-    if interactive and is_hovered:
+    if interactive and is_hovered or is_dragging_started: 
         config.mDrawList.add_circle_filled((center.x, center.y), hover_circle_radius, config.hover_circle_color)
         
     # 
@@ -599,7 +599,7 @@ def draw_gizmo_camera(camera:Camera, interactive:bool=True):
         is_hovered = False
     
     # 
-    if interactive and is_hovered:
+    if interactive and is_hovered or is_dragging_started:
         config.mDrawList.add_circle_filled((center.x, center.y), hover_circle_radius, config.hover_circle_color)
         
     # 
