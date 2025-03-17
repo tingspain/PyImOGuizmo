@@ -599,7 +599,7 @@ def draw_gizmo_camera(camera:Camera, interactive:bool=True):
         is_hovered = False
     
     # 
-    if interactive and is_hovered or is_dragging_started:
+    if interactive and (is_hovered or is_dragging_started):
         config.mDrawList.add_circle_filled((center.x, center.y), hover_circle_radius, config.hover_circle_color)
         
     # 
@@ -705,7 +705,7 @@ def draw_gizmo_camera(camera:Camera, interactive:bool=True):
     delta = None
     
     # Process Rotation
-    if selection==-1 and is_dragging and last_mouse_pos:
+    if interactive and selection==-1 and is_dragging and last_mouse_pos:
         
         mouse_pos = imgui.get_mouse_pos()
         delta = mouse_pos - last_mouse_pos
@@ -737,7 +737,7 @@ def draw_gizmo_camera(camera:Camera, interactive:bool=True):
         
      
     # Process Predefined Views
-    if selection != -1 and imgui.is_mouse_clicked(imgui.MouseButton_.left):
+    if interactive and selection != -1 and imgui.is_mouse_clicked(imgui.MouseButton_.left):
         
         if selection == 0:   # X            
             camera.pitch = 0
